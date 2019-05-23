@@ -1,7 +1,7 @@
 # Latest Version 1.0.0
 https://github.com/Russell-KV4S/DMR.UserDB.RadioConverter/releases/download/1.0.2/UserDB.RadioConverter.zip
 
-Currently, the applicaiton supports the AnyTone, Radioddity GD-77 (unfiltered results), and TYT UV Model Radios.
+Currently, the applicaiton supports the AnyTone model radios.
 
 # KV4S.AR.DMR.BM.TG.Exporter
 Application to download the Brandmeister DMR Talkgroup List and convert it to a CSV file for import into a DMR Radio.
