@@ -16,6 +16,17 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
         public static string URL = "https://api.brandmeister.network/v1.0/groups/";
         public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\AnyTone_TGs.csv";
 
+        private static List<string> _startsWithList = null;
+        private static string StartsWithList
+        {
+            set
+            {
+                string[] startsWithArray = value.Split(',');
+                _startsWithList = new List<string>(startsWithArray.Length);
+                _startsWithList.AddRange(startsWithArray);
+            }
+        }
+
         static void Main(string[] args)
         {
             try
@@ -45,41 +56,21 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                             string[] strSplit = line.Split('"');
 
                             //Data Filtering
-                            if (ConfigurationManager.AppSettings["US"] == "Y")
-                            {
-                                if (Convert.ToInt16(strSplit[1]) <= 9 || Convert.ToInt16(strSplit[1]) == 91 || Convert.ToInt16(strSplit[1]) == 93 || Convert.ToInt16(strSplit[1]) == 9990)
-                                {
-                                    lineAdd = true;
-                                }
-                                else if (strSplit[1].StartsWith("31"))
-                                {
-                                    lineAdd = true;
-                                }
-                                else
-                                {
-                                    lineAdd = false;
-                                }
-                            }
-                            else if (ConfigurationManager.AppSettings["UK"] == "Y")
-                            {
-                                if (Convert.ToInt16(strSplit[1]) <= 9 || Convert.ToInt16(strSplit[1]) == 91 || Convert.ToInt16(strSplit[1]) == 92 || Convert.ToInt16(strSplit[1]) == 9990)
-                                {
-                                    lineAdd = true;
-                                }
-                                else if (strSplit[1].StartsWith("235"))
-                                {
-                                    lineAdd = true;
-                                }
-                                else
-                                {
-                                    lineAdd = false;
-                                }
-                            }
-                            else
+                            if (Convert.ToInt64(strSplit[1]) <= 9 || Convert.ToInt64(strSplit[1]) <= 95 || Convert.ToInt64(strSplit[1]) == 9990)
                             {
                                 lineAdd = true;
                             }
-
+                            else
+                            {
+                                StartsWithList = ConfigurationManager.AppSettings["IDStartsWith"];
+                                foreach (string value in _startsWithList)
+                                {
+                                    if (strSplit[1].StartsWith(value))
+                                    {
+                                        lineAdd = true;
+                                    }                                    
+                                }                                
+                            }
 
                             //Save data to file
                             if (ConfigurationManager.AppSettings["AnyTone"] == "Y")
