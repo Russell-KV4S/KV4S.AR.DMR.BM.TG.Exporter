@@ -17,11 +17,13 @@ Simple edit the .config file located with the executable and use Y/N to manipula
         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
     </startup>
   <appSettings>
-    <add key="URL" value="https://www.radioid.net/static/users.json"/>
-    <!--Set this to "Y" if you are scheduling this to run and don't need the console window to stay open.-->
+    <!--If you run this as a job or don't need to see the output then make Unattended Yes-->
     <add key="Unattended" value="N"/>
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
+    <add key="IDinsteadOfName" value="N"/>
+    <add key="US" value="Y"/>
+    <add key="UK" value="N"/>
   </appSettings>
 </configuration>
 ```
