@@ -17,7 +17,7 @@ Simple edit the .config file located with the executable and use Y/N to manipula
         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
     </startup>
   <appSettings>
-    <!--If you run this as a job or don't need to see the output then make Unattended Yes-->
+    <!--If you run this as a job or don't need to see the output then make Unattended Y-->
     <add key="Unattended" value="N"/>
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
