@@ -4,7 +4,7 @@ https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.
 Currently, the applicaiton supports the AnyTone model radios.
 
 # KV4S.AR.DMR.BM.TG.Exporter
-Application to download the Brandmeister DMR Talkgroup List and convert it to a CSV file for import into a DMR Radio.
+Application to download the Brandmeister DMR Talkgroup List from the API: https://api.brandmeister.network/v1.0/groups and converts it to a CSV file for import into a DMR Radio.
 
 Contact me if you would like to add more and have the file specs or use Git and create your own and merge them back in.
 
@@ -22,8 +22,10 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
     <add key="IDinsteadOfName" value="N"/>
-    <add key="US" value="N"/>
-    <add key="UK" value="N"/>
+    <!--Use this to filter country 31=US 235=UK. 
+    For multiple countried separate by commas.  Example: "31,235,271" (no comma after last one).
+    Blank for no filter.-->
+    <add key="IDStartsWith" value=""/>
   </appSettings>
 </configuration>
 ```
