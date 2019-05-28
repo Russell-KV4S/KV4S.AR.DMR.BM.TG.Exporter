@@ -22,7 +22,7 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
     <add key="IDinsteadOfName" value="N"/>
-    <add key="US" value="Y"/>
+    <add key="US" value="N"/>
     <add key="UK" value="N"/>
   </appSettings>
 </configuration>
