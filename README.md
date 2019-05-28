@@ -22,7 +22,7 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
     <add key="IDinsteadOfName" value="N"/>
-    <!--Use this to filter country 31=US 235=UK. Multiple starts with separated by commas. Blank for no filter-->
+    <!--Use this to filter country 31=US 235=UK. Multiple starts with separated by commas. Blank for no filter. No comma after the last one.-->
     <add key="IDStartsWith" value=""/>
   </appSettings>
 </configuration>
