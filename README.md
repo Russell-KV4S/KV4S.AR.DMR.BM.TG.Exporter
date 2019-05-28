@@ -1,5 +1,5 @@
-# Latest Version 1.0.0
-https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.0/KV4S.AR.DMR.BM.TG.Exporter.zip
+# Latest Version 1.0.1
+https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.1/KV4S.AR.DMR.BM.TG.Exporter.zip
 
 Currently, the applicaiton supports the AnyTone model radios.
 
