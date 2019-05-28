@@ -46,23 +46,23 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 using (var stream = client.OpenRead(URL))
                 using (var reader = new StreamReader(stream))
                 {
-                    int i = 1;
-                    bool lineAdd = false;
-                    string line;
+                    int i = 1; //column A iterator for file spec.
+                    bool lineAdd = false; //initialize to false.
+                    string line; //varaible retained for use outside of loop.
                     while ((line = reader.ReadLine()) != null)
                     {
-                        if (!line.Contains('{') && !line.Contains('}'))
+                        if (!line.Contains('{') && !line.Contains('}')) //get rid of un-needed json syntax
                         {
                             string[] strSplit = line.Split('"');
 
-                            //Data Filtering
-                            if (Convert.ToInt64(strSplit[1]) <= 9 || Convert.ToInt64(strSplit[1]) <= 95 || Convert.ToInt64(strSplit[1]) == 9990)
+                            //Data Filtering (flags a line to save or not)
+                            if (Convert.ToInt64(strSplit[1]) <= 95) //keep these Global TGs reguardless of filter.
                             {
                                 lineAdd = true;
                             }
                             else
                             {
-                                StartsWithList = ConfigurationManager.AppSettings["IDStartsWith"];
+                                StartsWithList = ConfigurationManager.AppSettings["IDStartsWith"]; //if filter is blank gets everything.
                                 foreach (string value in _startsWithList)
                                 {
                                     if (strSplit[1].StartsWith(value))
@@ -73,9 +73,9 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                             }
 
                             //Save data to file
-                            if (ConfigurationManager.AppSettings["AnyTone"] == "Y")
+                            if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //file spec for AnyTone (so far only radio that can import a TG list)
                             {
-                                if (ConfigurationManager.AppSettings["IDinsteadOfName"] == "Y")
+                                if (ConfigurationManager.AppSettings["IDinsteadOfName"] == "Y") //feature request to display the TG ID instead of TG name.
                                 {
                                     if (lineAdd)
                                     {
@@ -95,7 +95,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                             lineAdd = false;
                         }
                     }
-                    if (ConfigurationManager.AppSettings["AnyTone"] == "Y")
+                    if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //potential for different file names per radio.
                     {
                         Console.WriteLine("Export created at: " + AnyTonecsvFile);
                     }
@@ -134,7 +134,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 sw.WriteLine("\"No.\",\"Radio ID\",\"Name\",\"Call Type\",\"Call Alert\"");
             }
 
-            if (tgID == "9990")
+            if (tgID == "9990") //needs to be a private call for Parrot not group.
             {
                 sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Private Call\",\"None\"");
                 Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Private Call\",\"None\"");
