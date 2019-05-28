@@ -4,7 +4,7 @@ https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.
 Currently, the applicaiton supports the AnyTone model radios.
 
 # KV4S.AR.DMR.BM.TG.Exporter
-Application to download the Brandmeister DMR Talkgroup List and convert it to a CSV file for import into a DMR Radio.
+Application to download the Brandmeister DMR Talkgroup List from the API: https://api.brandmeister.network/v1.0/groups and converts it to a CSV file for import into a DMR Radio.
 
 Contact me if you would like to add more and have the file specs or use Git and create your own and merge them back in.
 
