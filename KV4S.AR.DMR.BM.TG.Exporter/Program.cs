@@ -89,6 +89,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                     if (lineAdd)
                                     {
                                         SaveAnyToneCSV(i, strSplit[1], strSplit[1]);
+                                        i++;
                                     }
                                 }
                                 else
@@ -96,11 +97,11 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                     if (lineAdd)
                                     {
                                         SaveAnyToneCSV(i, strSplit[1], strSplit[3]);
+                                        i++;
                                     }
                                 }
                             }
                             lineAdd = false;
-                            i++;
                         }
                     }
                     if (ConfigurationManager.AppSettings["AnyTone"] == "Y")
