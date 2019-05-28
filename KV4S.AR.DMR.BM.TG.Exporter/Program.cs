@@ -36,6 +36,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 using (var reader = new StreamReader(stream))
                 {
                     int i = 1;
+                    bool lineAdd = false;
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
@@ -43,10 +44,62 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                         {
                             string[] strSplit = line.Split('"');
 
+                            //Data Filtering
+                            if (ConfigurationManager.AppSettings["US"] == "Y")
+                            {
+                                if (Convert.ToInt16(strSplit[1]) <= 9 || Convert.ToInt16(strSplit[1]) == 91 || Convert.ToInt16(strSplit[1]) == 93 || Convert.ToInt16(strSplit[1]) == 9990)
+                                {
+                                    lineAdd = true;
+                                }
+                                else if (strSplit[1].StartsWith("31"))
+                                {
+                                    lineAdd = true;
+                                }
+                                else
+                                {
+                                    lineAdd = false;
+                                }
+                            }
+                            else if (ConfigurationManager.AppSettings["UK"] == "Y")
+                            {
+                                if (Convert.ToInt16(strSplit[1]) <= 9 || Convert.ToInt16(strSplit[1]) == 91 || Convert.ToInt16(strSplit[1]) == 92 || Convert.ToInt16(strSplit[1]) == 9990)
+                                {
+                                    lineAdd = true;
+                                }
+                                else if (strSplit[1].StartsWith("235"))
+                                {
+                                    lineAdd = true;
+                                }
+                                else
+                                {
+                                    lineAdd = false;
+                                }
+                            }
+                            else
+                            {
+                                lineAdd = true;
+                            }
+
+
+                            //Save data to file
                             if (ConfigurationManager.AppSettings["AnyTone"] == "Y")
                             {
-                                SaveAnyToneCSV(i, strSplit[1], strSplit[3]);
+                                if (ConfigurationManager.AppSettings["IDinsteadOfName"] == "Y")
+                                {
+                                    if (lineAdd)
+                                    {
+                                        SaveAnyToneCSV(i, strSplit[1], strSplit[1]);
+                                    }
+                                }
+                                else
+                                {
+                                    if (lineAdd)
+                                    {
+                                        SaveAnyToneCSV(i, strSplit[1], strSplit[3]);
+                                    }
+                                }
                             }
+                            lineAdd = false;
                             i++;
                         }
                     }
