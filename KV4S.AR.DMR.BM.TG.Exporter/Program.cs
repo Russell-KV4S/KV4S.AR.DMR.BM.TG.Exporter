@@ -142,8 +142,16 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 sw.WriteLine("\"No.\",\"Radio ID\",\"Name\",\"Call Type\",\"Call Alert\"");
             }
 
-            sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
-            Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
+            if (tgID == "9990")
+            {
+                sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Private Call\",\"None\"");
+                Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Private Call\",\"None\"");
+            }
+            else
+            {
+                sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
+                Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
+            }
             sw.Close();
             fs.Close();
         }
