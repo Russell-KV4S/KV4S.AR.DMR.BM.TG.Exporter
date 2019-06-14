@@ -22,6 +22,8 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     <!--Y/N value only-->
     <add key="AnyTone" value="Y"/>
     <add key="IDinsteadOfName" value="N"/>
+    <!--Set to N for DMARC as local numbers are different-->
+    <add key="LessThan91" value="Y"/>
     <!--Use this to filter country 31=US 235=UK. 
     For multiple countried separate by commas.  Example: "31,235,271" (no comma after last one).
     Blank for no filter.-->
