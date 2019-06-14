@@ -58,7 +58,17 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                             //Data Filtering (flags a line to save or not)
                             if (Convert.ToInt64(strSplit[1]) <= 95) //keep these Global TGs reguardless of filter.
                             {
-                                lineAdd = true;
+                                if (ConfigurationManager.AppSettings["LessThan91"] == "N")
+                                {
+                                    if (Convert.ToInt64(strSplit[1]) >= 91)
+                                    {
+                                        lineAdd = true;
+                                    }
+                                }
+                                else
+                                {
+                                    lineAdd = true;
+                                }                                
                             }
                             else
                             {
@@ -68,7 +78,11 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                     if (strSplit[1].StartsWith(value))
                                     {
                                         lineAdd = true;
-                                    }                                    
+                                    }
+                                    if (strSplit[3].ToUpper().Contains("EMCOM")) //include emcom requardless of filter.
+                                    {
+                                        lineAdd = true;
+                                    }
                                 }                                
                             }
 
