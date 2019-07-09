@@ -28,6 +28,8 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     For multiple countried separate by commas.  Example: "31,235,271" (no comma after last one).
     Blank for no filter.-->
     <add key="IDStartsWith" value=""/>
+    <!--TGs to add to the end that are not from Brandmeister-->
+    <add key="ExtraTGList" value="TG_Extras.csv"/>
   </appSettings>
 </configuration>
 ```
@@ -39,5 +41,12 @@ The CSV files are writen to the same location as the executable named:
 AnyTone_TGs.csv
 
 ```
-
 Use your radios CPS to import and write to your radio.
+
+Update after 1.0.3
+If you would like to add custom TGs to the end of the BM list create a "Extras" file.
+It's the same format as the one you import just leave off the IDs as the program will populate them.
+You may want this from other networks (TGIF/DMARC) or private groups or private calls.
+Pay attention that you don't duplicate numbers or names as you may get import warnings in the CPS.
+
+
