@@ -14,7 +14,9 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
     class Program
     {
         public static string URL = "https://api.brandmeister.network/v1.0/groups/";
-        public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\AnyTone_TGs.csv";
+        //public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\AnyTone_TGs.csv";
+        public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\" + ConfigurationManager.AppSettings["ExportFileName"];
+        public static string ExtrasFile = Environment.CurrentDirectory + @"\" + ConfigurationManager.AppSettings["ExtraTGList"];
 
         private static List<string> _startsWithList = null;
         private static string StartsWithList
@@ -31,6 +33,8 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
         {
             try
             {
+                int i = 1; //column A iterator for file spec.
+
                 //delete files before begin
                 File.Delete(AnyTonecsvFile);
 
@@ -46,7 +50,6 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 using (var stream = client.OpenRead(URL))
                 using (var reader = new StreamReader(stream))
                 {
-                    int i = 1; //column A iterator for file spec.
                     bool lineAdd = false; //initialize to false.
                     string line; //varaible retained for use outside of loop.
                     while ((line = reader.ReadLine()) != null)
@@ -68,7 +71,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                 else
                                 {
                                     lineAdd = true;
-                                }                                
+                                }
                             }
                             else
                             {
@@ -83,7 +86,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                     {
                                         lineAdd = true;
                                     }
-                                }                                
+                                }
                             }
 
                             //Save data to file
@@ -93,7 +96,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                 {
                                     if (lineAdd)
                                     {
-                                        SaveAnyToneCSV(i, strSplit[1], strSplit[1]);
+                                        SaveAnyToneCSV(i, strSplit[1], strSplit[1], "Group Call", "None");
                                         i++;
                                     }
                                 }
@@ -101,7 +104,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                                 {
                                     if (lineAdd)
                                     {
-                                        SaveAnyToneCSV(i, strSplit[1], strSplit[3]);
+                                        SaveAnyToneCSV(i, strSplit[1], strSplit[3], "Group Call", "None");
                                         i++;
                                     }
                                 }
@@ -109,10 +112,30 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                             lineAdd = false;
                         }
                     }
-                    if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //potential for different file names per radio.
+                }
+
+                //Load Extra Talk Groupds from file
+                if (File.Exists(ExtrasFile))
+                {
+                    Console.WriteLine("Loading extras.");
+                    using (StreamReader sr = File.OpenText(ExtrasFile))
                     {
-                        Console.WriteLine("Export created at: " + AnyTonecsvFile);
+                        String s = "";
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            if (!s.Contains("No.,Radio ID,Name,Call Type,Call Alert"))
+                            {
+                                string[] strSplit = s.Split(',');
+                                SaveAnyToneCSV(i, strSplit[1], strSplit[2], strSplit[3], strSplit[4]);
+                                i++;
+                            }
+                        }
                     }
+                }
+
+                if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //potential for different file names per radio.
+                {
+                    Console.WriteLine("Export created at: " + AnyTonecsvFile);
                 }
             }
             catch (Exception ex)
@@ -131,7 +154,7 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
             }
         }
 
-        public static void SaveAnyToneCSV(int intLoopID, string tgID, string tgDesc)
+        public static void SaveAnyToneCSV(int intLoopID, string tgID, string tgDesc, string callType, string callAlert)
         {
             FileInfo fi = new FileInfo(AnyTonecsvFile);
             if (!fi.Directory.Exists)
@@ -155,8 +178,8 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
             }
             else
             {
-                sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
-                Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"Group Call\",\"None\"");
+                sw.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"" + callType + "\",\"" + callAlert + "\"");
+                Console.WriteLine("\"" + intLoopID + "\",\"" + tgID + "\",\"" + tgDesc + "\",\"" + callType + "\"" + callAlert + "\"");
             }
             sw.Close();
             fs.Close();
