@@ -17,6 +17,7 @@ Simple edit the .config file located with the executable and use Y/N to manipula
         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
     </startup>
   <appSettings>
+    <add key="ExportFileName" value="AnyTone_TGs.csv"/>
     <!--If you run this as a job or don't need to see the output then make Unattended Y-->
     <add key="Unattended" value="N"/>
     <!--Y/N value only-->
@@ -28,8 +29,9 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     For multiple countried separate by commas.  Example: "31,235,271" (no comma after last one).
     Blank for no filter.-->
     <add key="IDStartsWith" value=""/>
+    <!--TGs to add to the end that are not from Brandmeister-->
+    <add key="ExtraTGList" value="TG_Extras.csv"/>
   </appSettings>
-</configuration>
 ```
 
 Since this is a console application you can use Windows Task Scheduler to run this in the backgroud on a schedule of your choosing.
@@ -37,7 +39,14 @@ Since this is a console application you can use Windows Task Scheduler to run th
 The CSV files are writen to the same location as the executable named:
 ```
 AnyTone_TGs.csv
-
+TG_Extras.csv
 ```
-
 Use your radios CPS to import and write to your radio.
+
+Update after 1.0.3
+If you would like to add custom TGs to the end of the BM list create a "Extras" file.
+It's the same format as the one you import just leave off the IDs as the program will populate them.
+You may want this from other networks (TGIF/DMARC) or private groups or private calls.
+Pay attention that you don't duplicate numbers or names as you may get import warnings in the CPS.
+
+
