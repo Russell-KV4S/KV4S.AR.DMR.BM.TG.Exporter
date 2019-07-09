@@ -39,7 +39,7 @@ Since this is a console application you can use Windows Task Scheduler to run th
 The CSV files are writen to the same location as the executable named:
 ```
 AnyTone_TGs.csv
-
+TG_Extras.csv
 ```
 Use your radios CPS to import and write to your radio.
 
