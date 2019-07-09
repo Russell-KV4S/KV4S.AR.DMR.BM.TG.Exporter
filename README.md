@@ -17,6 +17,7 @@ Simple edit the .config file located with the executable and use Y/N to manipula
         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
     </startup>
   <appSettings>
+    <add key="ExportFileName" value="AnyTone_TGs.csv"/>
     <!--If you run this as a job or don't need to see the output then make Unattended Y-->
     <add key="Unattended" value="N"/>
     <!--Y/N value only-->
@@ -31,7 +32,6 @@ Simple edit the .config file located with the executable and use Y/N to manipula
     <!--TGs to add to the end that are not from Brandmeister-->
     <add key="ExtraTGList" value="TG_Extras.csv"/>
   </appSettings>
-</configuration>
 ```
 
 Since this is a console application you can use Windows Task Scheduler to run this in the backgroud on a schedule of your choosing.
