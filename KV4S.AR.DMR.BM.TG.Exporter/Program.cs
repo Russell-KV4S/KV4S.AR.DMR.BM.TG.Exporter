@@ -156,6 +156,9 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
 
         public static void SaveAnyToneCSV(int intLoopID, string tgID, string tgDesc, string callType, string callAlert)
         {
+            tgDesc = tgDesc.Replace(" NO NETS!!!", "");
+            tgDesc = tgDesc.Replace("Tac 310 NOT A CALL CHANNEL", "TAC 310 USA");
+            tgDesc = tgDesc.Replace(" - 10 Minute Limit", "");
             FileInfo fi = new FileInfo(AnyTonecsvFile);
             if (!fi.Directory.Exists)
             {
