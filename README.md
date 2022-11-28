@@ -1,3 +1,6 @@
+# Project on hold
+API version 1 has been discontinued. Until I find a new way to get to the data this program no longer functions.
+
 # Latest Version 1.0.4
 https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.0.4/KV4S.AR.DMR.BM.TG.Exporter.zip
 
