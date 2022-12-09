@@ -1,15 +1,12 @@
-# Project on hold
-API version 1 has been discontinued. Until I find a new way to get to the data this program no longer functions.
-
-# Latest Version 1.0.4
-https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.0.4/KV4S.AR.DMR.BM.TG.Exporter.zip
+# Latest Version 1.1.0
+https://github.com/Russell-KV4S/KV4S.AR.DMR.BM.TG.Exporter/releases/download/v1.1.0/KV4S.AR.DMR.BM.TG.Exporter.zip
 
 Currently, the applicaiton supports the AnyTone model radios.
 
 Runs on .Net Framework 4.8 install here: https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48
 
 # KV4S.AR.DMR.BM.TG.Exporter
-Application to download the Brandmeister DMR Talkgroup List from the API: https://api.brandmeister.network/v1.0/groups and converts it to a CSV file for import into a DMR Radio.
+Application to download the Brandmeister DMR Talkgroup List from the API: http://api.brandmeister.network/v2/talkgroup and converts it to a CSV file for import into a DMR Radio.
 
 Contact me if you would like to add more and have the file specs or use Git and create your own and merge them back in.
 
