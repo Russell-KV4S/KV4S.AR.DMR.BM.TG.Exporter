@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace KV4S.AR.DMR.BM.TG.Exporter
 {
     class Program
     {
-        public static string URL = "https://api.brandmeister.network/v1.0/groups/";
+        public static string URL = "http://api.brandmeister.network/v2/talkgroup";
         //public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\AnyTone_TGs.csv";
         public static string AnyTonecsvFile = Environment.CurrentDirectory + @"\" + ConfigurationManager.AppSettings["ExportFileName"];
         public static string ExtrasFile = Environment.CurrentDirectory + @"\" + ConfigurationManager.AppSettings["ExtraTGList"];
@@ -47,71 +44,64 @@ namespace KV4S.AR.DMR.BM.TG.Exporter
                 var client = new WebClient();
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                using (var stream = client.OpenRead(URL))
-                using (var reader = new StreamReader(stream))
+
+                //create a dictionary that represents the json data then json convert from url
+                Dictionary<string,string> tgList = JsonConvert.DeserializeObject<Dictionary<string,string>>(client.DownloadString(URL));
+                bool lineAdd = false; //initialize to false.
+                foreach (KeyValuePair<string,string> item in tgList)
                 {
-                    bool lineAdd = false; //initialize to false.
-                    string line; //varaible retained for use outside of loop.
-                    while ((line = reader.ReadLine()) != null)
+                    //Data Filtering (flags a line to save or not)
+                    if (Convert.ToInt64(item.Key) <= 95) //keep these Global TGs reguardless of filter.
                     {
-                        if (!line.Contains('{') && !line.Contains('}')) //get rid of un-needed json syntax
+                        if (ConfigurationManager.AppSettings["LessThan91"] == "N")
                         {
-                            string[] strSplit = line.Split('"');
-
-                            //Data Filtering (flags a line to save or not)
-                            if (Convert.ToInt64(strSplit[1]) <= 95) //keep these Global TGs reguardless of filter.
+                            if (Convert.ToInt64(item.Key) >= 91)
                             {
-                                if (ConfigurationManager.AppSettings["LessThan91"] == "N")
-                                {
-                                    if (Convert.ToInt64(strSplit[1]) >= 91)
-                                    {
-                                        lineAdd = true;
-                                    }
-                                }
-                                else
-                                {
-                                    lineAdd = true;
-                                }
+                                lineAdd = true;
                             }
-                            else
-                            {
-                                StartsWithList = ConfigurationManager.AppSettings["IDStartsWith"]; //if filter is blank gets everything.
-                                foreach (string value in _startsWithList)
-                                {
-                                    if (strSplit[1].StartsWith(value))
-                                    {
-                                        lineAdd = true;
-                                    }
-                                    if (strSplit[3].ToUpper().Contains("EMCOM")) //include emcom requardless of filter.
-                                    {
-                                        lineAdd = true;
-                                    }
-                                }
-                            }
-
-                            //Save data to file
-                            if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //file spec for AnyTone (so far only radio that can import a TG list)
-                            {
-                                if (ConfigurationManager.AppSettings["IDinsteadOfName"] == "Y") //feature request to display the TG ID instead of TG name.
-                                {
-                                    if (lineAdd)
-                                    {
-                                        SaveAnyToneCSV(i, strSplit[1], strSplit[1], "Group Call", "None");
-                                        i++;
-                                    }
-                                }
-                                else
-                                {
-                                    if (lineAdd)
-                                    {
-                                        SaveAnyToneCSV(i, strSplit[1], strSplit[3], "Group Call", "None");
-                                        i++;
-                                    }
-                                }
-                            }
-                            lineAdd = false;
+                        }
+                        else
+                        {
+                            lineAdd = true;
                         }
                     }
+                    else
+                    {
+                        StartsWithList = ConfigurationManager.AppSettings["IDStartsWith"]; //if filter is blank gets everything.
+                        foreach (string value in _startsWithList)
+                        {
+                            if (item.Key.StartsWith(value))
+                            {
+                                lineAdd = true;
+                            }
+                            if (item.Value.ToUpper().Contains("EMCOM")) //include emcom requardless of filter.
+                            {
+                                lineAdd = true;
+                            }
+                        }
+                    }
+
+                    //Save data to file
+                    if (ConfigurationManager.AppSettings["AnyTone"] == "Y") //file spec for AnyTone (so far only radio that can import a TG list)
+                    {
+                        if (ConfigurationManager.AppSettings["IDinsteadOfName"] == "Y") //feature request to display the TG ID instead of TG name.
+                        {
+                            if (lineAdd)
+                            {
+                                SaveAnyToneCSV(i, item.Key, item.Key, "Group Call", "None");
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            if (lineAdd)
+                            {
+                                SaveAnyToneCSV(i, item.Key, item.Value.Trim(), "Group Call", "None");
+                                i++;
+                            }
+                        }
+                    }
+                    lineAdd = false;
                 }
 
                 //Load Extra Talk Groupds from file
